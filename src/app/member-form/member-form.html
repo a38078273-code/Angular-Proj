@@ -1,0 +1,42 @@
+<div class="form-container" style="max-width: 600px; margin: 2rem auto; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); background: white;">
+  <h2 style="margin-bottom: 2rem;">{{ memberId ? 'Edit Member' : 'Create Member' }}</h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" style="display: flex; flex-direction: column; gap: 1rem;">
+    
+    <mat-form-field appearance="outline">
+      <mat-label>CIN</mat-label>
+      <input matInput formControlName="cin" placeholder="Enter CIN" required>
+      <mat-error *ngIf="form.get('cin')?.hasError('required')">CIN is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" placeholder="Enter Name" required>
+      <mat-error *ngIf="form.get('name')?.hasError('required')">Name is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="type" required>
+        <mat-option value="Student">Student</mat-option>
+        <mat-option value="Teacher">Teacher</mat-option>
+        <mat-option value="Admin">Admin</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('type')?.hasError('required')">Type is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Created Time</mat-label>
+      <input matInput type="date" formControlName="createdDate" required>
+      <mat-error *ngIf="form.get('createdDate')?.hasError('required')">Created time is required</mat-error>
+    </mat-form-field>
+
+    <div class="actions" style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1rem;">
+      <button mat-button type="button" routerLink="/members">Cancel</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+        {{ memberId ? 'Update' : 'Save' }}
+      </button>
+    </div>
+
+  </form>
+</div>
