@@ -5,6 +5,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { MemberService } from '../../services/member-service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialog } from '../confirm-dialog/confirm-dialog';
+
+
 
 /** @title Basic use of `<table mat-table>` */
 @Component({
@@ -16,7 +20,7 @@ import { MemberService } from '../../services/member-service';
 export class Member implements OnInit {
   displayedColumns: string[] = ['id', 'name', 'cin', 'type', '5'];
   //Injection des dépendances
-  constructor(private MS: MemberService) { }
+  constructor(private MS: MemberService, private dialog: MatDialog){ }
   //saisir tableau des membres
   dataSource: any[] = []
   
@@ -36,8 +40,12 @@ export class Member implements OnInit {
     let dialogRef = this.dialog.open(ConfirmDialog)
 
     //Attendre le click
-    this.MS.deleteMember(id).subscribe(() => {
-      this.ngOnInit()
+    dialogRef.afterClosed().subscribe((v) => {
+      if (v) {
+        this.MS.deleteMember(id).subscribe(() => {
+        this.ngOnInit()
+      })
+    }
     });
   }
 }
